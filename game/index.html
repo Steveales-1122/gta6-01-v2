@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>SUNSET KEYS — Port Alba</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #1a1226; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #game { display: block; width: 100vw; height: 100vh; }
+  #hud { position: fixed; inset: 0; pointer-events: none; color: #fff; }
+  .panel { position: absolute; background: rgba(16, 18, 28, 0.72); border-radius: 10px; padding: 8px 12px; }
+  #topleft { top: 12px; left: 12px; }
+  #cash { font-size: 22px; font-weight: 800; color: #7dff9e; }
+  #stars { font-size: 20px; letter-spacing: 2px; color: #ffd650; }
+  #stars.hot { color: #ff5a5a; animation: blink 0.7s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0.45; } }
+  #healthbar { width: 150px; height: 8px; background: rgba(255,255,255,0.25); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+  #healthbar .fill { height: 100%; background: #7dff9e; }
+  #healthbar .fill.low { background: #ff5a5a; }
+  #health { font-size: 12px; opacity: 0.85; }
+  #bottombar { left: 50%; transform: translateX(-50%); bottom: 12px; display: flex; gap: 18px; align-items: center; font-size: 14px; }
+  #speed { font-weight: 700; font-size: 18px; }
+  #objective { max-width: 560px; }
+  #clock { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 13px; opacity: 0.9; }
+  #bust { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); width: 260px; text-align: center; opacity: 0; transition: opacity 0.2s; }
+  #bust .label { font-size: 13px; letter-spacing: 2px; color: #ff8a8a; font-weight: 700; }
+  #bustbar { height: 8px; background: rgba(255,255,255,0.25); border-radius: 4px; overflow: hidden; margin-top: 4px; }
+  #bustfill { height: 100%; background: #ff5a5a; width: 0%; }
+  #toast { position: absolute; top: 110px; left: 50%; transform: translateX(-50%); background: rgba(16, 18, 28, 0.8); border: 1px solid #ffd650; border-radius: 8px; padding: 8px 16px; font-size: 15px; opacity: 0; transition: opacity 0.3s; max-width: 640px; text-align: center; }
+  #toast.show { opacity: 1; }
+  #menu { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at 30% 20%, rgba(255, 158, 94, 0.45), rgba(26, 18, 38, 0.88) 70%); pointer-events: auto; }
+  #menu.hidden { display: none; }
+  #menu .card { text-align: center; max-width: 620px; padding: 32px; }
+  #menu-title { font-size: 56px; font-weight: 900; letter-spacing: 4px; margin: 0; background: linear-gradient(180deg, #ffd650, #ff7a4d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #menu-body { font-size: 16px; line-height: 1.55; margin: 18px 0; color: #f2e8dc; }
+  #menu-hint { font-size: 15px; color: #ffd650; animation: blink 1.2s steps(2) infinite; }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="hud">
+  <div id="topleft" class="panel">
+    <div id="cash">$250</div>
+    <div id="stars" class="stars">☆☆☆☆☆</div>
+    <div id="healthbar"><div id="healthbar-fill" class="fill" style="width:100%"></div></div>
+    <div id="health">100</div>
+  </div>
+  <div id="clock" class="panel">Day 1 · 17:00 · Sunset</div>
+  <div id="bust"><div class="label">BUSTED?</div><div id="bustbar"><div id="bustfill"></div></div></div>
+  <div id="toast"></div>
+  <div id="bottombar" class="panel">
+    <span id="speed">on foot</span>
+    <span id="objective">Free roam — explore Port Alba, E to steal a car, F to punch.</span>
+  </div>
+</div>
+<div id="menu">
+  <div class="card">
+    <h1 id="menu-title">SUNSET KEYS</h1>
+    <div id="menu-body"></div>
+    <div id="menu-hint">Press Enter or click to start</div>
+  </div>
+</div>
+<script type="module">
+import { boot } from './src/main.js';
+boot();
+</script>
+</body>
+</html>
